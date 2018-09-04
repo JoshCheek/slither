@@ -1,0 +1,10 @@
+{
+  "name": "slither",
+  "private": true,
+  "devDependencies": {
+    "jasmine": "^3.2.0"
+  },
+  "scripts": {
+    "test": "jasmine --config=jasmine.json"
+  }
+}
