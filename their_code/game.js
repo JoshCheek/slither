@@ -1063,6 +1063,8 @@ function startShowGame() {
 }
 
 function setSkin(b, c, e) {
+  window.lastSkin = {b,c,e}
+  console.log({b, c, e})
     b.rcv = c;
     b.er = 6;
     b.pr = 3.5;
@@ -2521,6 +2523,7 @@ window.gotServerVersion = function(b) {
     for (var c = 0; 24 > c; c++) random_id += String.fromCharCode(65 + (.5 > Math.random() ? 0 : 32) + alpha_chars.charCodeAt(c) + Math.floor(26 * Math.random()));
     idba = new Uint8Array(random_id.length);
     for (c = 0; c < random_id.length; c++) idba[c] = random_id.charCodeAt(c);
+    console.log({idba, lgba, random_id, })
     isValidVersion(b) && (ws.send(idba), ws.send(lgba))
 };
 window.isValidVersion = function(b) {
@@ -2568,8 +2571,38 @@ var maxp = 0,
             }
             c = view_xx;
             var e = view_yy;
-            null != snake && (0 < fvtg && (fvtg--, fvx = fvxs[fvpos], fvy = fvys[fvpos], fvxs[fvpos] = 0, fvys[fvpos] = 0, fvpos++, fvpos >= vfc && (fvpos = 0)), view_xx = snake.xx + snake.fx + fvx, view_yy = snake.yy + snake.fy + fvy, choosing_skin && (view_xx -= 5 * snake.pts.length, view_yy -= bskoy, gsc = 1, testing && (gsc = 2)),
-                view_ang = Math.atan2(view_yy - grd, view_xx - grd), view_dist = Math.sqrt((view_xx - grd) * (view_xx - grd) + (view_yy - grd) * (view_yy - grd)), bpx1 = view_xx - (mww2 / gsc + 84), bpy1 = view_yy - (mhh2 / gsc + 84), bpx2 = view_xx + (mww2 / gsc + 84), bpy2 = view_yy + (mhh2 / gsc + 84), fpx1 = view_xx - (mww2 / gsc + 24), fpy1 = view_yy - (mhh2 / gsc + 24), fpx2 = view_xx + (mww2 / gsc + 24), fpy2 = view_yy + (mhh2 / gsc + 24), apx1 = view_xx - (mww2 / gsc + 210), apy1 = view_yy - (mhh2 / gsc + 210), apx2 = view_xx + (mww2 / gsc + 210), apy2 = view_yy + (mhh2 / gsc + 210));
+            null != snake && (
+              0 < fvtg && (
+                fvtg--,
+                fvx = fvxs[fvpos],
+                fvy = fvys[fvpos],
+                fvxs[fvpos] = 0,
+                fvys[fvpos] = 0,
+                fvpos++,
+                fvpos >= vfc && (fvpos = 0)
+              ),
+              view_xx = snake.xx + snake.fx + fvx,
+              view_yy = snake.yy + snake.fy + fvy,
+              choosing_skin && (view_xx -= 5 * snake.pts.length,
+                view_yy -= bskoy,
+                gsc = 1,
+                testing && (gsc = 2)
+              ),
+              view_ang = Math.atan2(view_yy - grd, view_xx - grd),
+              view_dist = Math.sqrt((view_xx - grd) * (view_xx - grd) + (view_yy - grd) * (view_yy - grd)),
+              bpx1 = view_xx - (mww2 / gsc + 84),
+              bpy1 = view_yy - (mhh2 / gsc + 84),
+              bpx2 = view_xx + (mww2 / gsc + 84),
+              bpy2 = view_yy + (mhh2 / gsc + 84),
+              fpx1 = view_xx - (mww2 / gsc + 24),
+              fpy1 = view_yy - (mhh2 / gsc + 24),
+              fpx2 = view_xx + (mww2 / gsc + 24),
+              fpy2 = view_yy + (mhh2 / gsc + 24),
+              apx1 = view_xx - (mww2 / gsc + 210),
+              apy1 = view_yy - (mhh2 / gsc + 210),
+              apx2 = view_xx + (mww2 / gsc + 210),
+              apy2 = view_yy + (mhh2 / gsc + 210)
+            );
             bgx2 -= (view_xx - c) / bgw2;
             bgy2 -= (view_yy - e) / bgh2;
             bgx2 %=
@@ -4152,7 +4185,13 @@ document.onkeydown = function(b) {
 document.onkeyup = function(b) {
     b = b || window.event;
     b = b.keyCode;
-    37 == b ? kd_l = !1 : 39 == b ? kd_r = !1 : 38 == b || 32 == b ? (kd_u = !1, setAcceleration(0)) : 16 == b && testing && (shifty = !1)
+  37 == b
+    ?  kd_l = !1
+    : 39 == b
+    ? kd_r = !1
+    : 38 == b || 32 == b
+    ? (kd_u = !1, setAcceleration(0))
+    : 16 == b && testing && (shifty = !1)
 };
 
 function loadSos(b) {
