@@ -1,6 +1,10 @@
 Slither.io
 ==========
 
+The stuff I was injecting is in `inject.js`, I started to pull common bits out
+into their own file, but haven't put them back into the injection scrpit
+(didn't feel like having to go mess with webpack again)
+
 input control
 -------------
 
@@ -53,4 +57,50 @@ lbn    // leaderboard names
 lbs    // leaderboard scores
 lbf    // your rank and position
 loch   // minimap
+```
+
+IDK, other stuff I played with
+------------------------------
+
+```js
+jws = new WebSocket(`ws://${sos[0].ip}:${sos[0].po}`)
+jws.binaryType = "arraybuffer"
+jws.addEventListener('open', function (event) { console.log("open", event) })
+jws.addEventListener('mesage', function (event) { console.log("message", event) })
+
+// to look at the websocket data
+  josh.wsTheirs = ws.onmessage
+  josh.wsMine = function(b) {
+    josh.wsData = b
+    ws.onmessage = josh.wsTheirs;
+    return josh.wsTheirs(b)
+  }
+  ws.onmessage = josh.wsMine
+
+// to control the mouse
+  // moving the mouse sets xm and ym, which are the x and y of the mouse, relative to the middle of the screen
+  // so you can control the snake by setting xm / ym (eg to make it go straight right: xm=100, ym=0)
+  // small changes either don't get observed, or are seen as like "wiggle up a bit"
+
+  // eg: wiggle
+  josh.wiggle = function(times=10) {
+    // init
+    const duration = 150
+    const distance = 50
+    let count = 0
+    function up() {
+      if(count++ >= times) return
+      ym -= distance
+      setTimeout(down, duration)
+    }
+    function down() {
+      if(count++ >= times) return
+      ym += distance
+      setTimeout(up, duration)
+    }
+
+    xm = 100
+    ym = distance/2
+    up()
+  }
 ```
